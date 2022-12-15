@@ -1,0 +1,41 @@
+1. https://leetcode.com/problems/longest-common-subsequence/
+Solution : 
+*** MEMOIZATION ***
+class Solution {
+public:
+    int LSC(int i, int j, string &n, string &m, vector<vector<int>> &dp){
+        if(i < 0 or j < 0) return 0;
+
+        if(dp[i][j] != -1) return dp[i][j];
+
+        if(n[i] == m[j])
+            return dp[i][j] = 1 + LSC(i - 1, j - 1, n, m, dp);
+        
+        return dp[i][j] = max(LSC(i - 1, j, n, m, dp), LSC(i, j - 1, n, m, dp));
+    }
+    int longestCommonSubsequence(string t1, string t2) {
+        int n1 = t1.size(), n2 = t2.size();
+        vector<vector<int>> dp(n1, vector<int>(n2, -1));
+        return LSC(n1 - 1, n2 - 1, t1, t2, dp);
+    }
+};
+
+*** TABULATION ***
+class Solution {
+public:
+    int longestCommonSubsequence(string t1, string t2) {
+        int n1 = t1.size(), n2 = t2.size();
+        vector<vector<int>> dp(n1+1, vector<int>(n2+1, 0));
+
+        for(int i = 1; i <= n1; i++){
+            for(int j = 1; j <= n2; j++){
+                if(t1[i - 1] == t2[j - 1]){
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                }else{
+                    dp[i][j] = max(dp[i-1][j], dp[i][j-1]);
+                }
+            }
+        }
+        return dp[n1][n2];
+    }
+};
