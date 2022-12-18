@@ -1,0 +1,47 @@
+1. https://leetcode.com/problems/daily-temperatures/
+Solution : 
+1. 
+      class Solution {
+      public:
+          vector<int> dailyTemperatures(vector<int>& t) {
+              vector<int> ans;
+              stack<pair<int, int>> s;
+              int n = t.size();
+              for(int i = n - 1; i >= 0; --i)
+              {
+                  while(s.size() and s.top().first <= t[i]) s.pop();
+                  if(!s.size()) ans.push_back(0);
+                  else ans.push_back(s.top().second - i);
+                  s.push({t[i] , i});
+              }
+              reverse(ans.begin() ,ans.end());
+              return ans;
+          }
+      };
+      
+2.
+      class Solution {
+      public:
+      vector<int> dailyTemperatures(vector<int>& t) {
+        vector<int> ans;
+        stack<pair<int, int>> s;
+        int n = t.size();
+        for(int i = n - 1; i >= 0; --i)
+        {
+            if(s.size() == 0) ans.push_back(0);
+            else if(s.size() > 0 and s.top().first > t[i]) ans.push_back(s.top().second - i);
+            else if(s.size() > 0 and s.top().first <= t[i])
+            {
+                while(s.size() > 0 and s.top().first <= t[i])
+                {
+                    s.pop();
+                }
+                if(s.size() == 0) ans.push_back(0);
+                else ans.push_back(s.top().second - i);
+            }
+            s.push({t[i] , i});
+        }
+        reverse(ans.begin() ,ans.end());
+        return ans;
+    }
+};
