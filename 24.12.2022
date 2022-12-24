@@ -1,0 +1,62 @@
+1. https://leetcode.com/problems/domino-and-tromino-tiling/description/
+Solution : 
+class Solution {
+public:
+    int numTilings(int n) {
+        //a[i] = 2 * a[i-1] + a[i-3];
+        int x = 0, y = 1, z = 1, t, mod = 1000000007;
+        while(n--){
+            t = (z * 2 % mod + x) % mod;
+            x = y;
+            y = z;
+            z = t;
+        }
+
+        return y;
+    }
+};
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. https://leetcode.com/contest/biweekly-contest-94/problems/maximum-enemy-forts-that-can-be-captured/
+Solution : 
+class Solution {
+public:
+    int captureForts(vector<int>& f) {
+        int n = f.size();
+        vector<pair<int, int>> a;
+        int ans = 0;
+        int p = -1;
+        int q = -1;
+        
+        for(int i = 0; i < n; i++){
+            if(f[i] == 1){
+                p = i;
+            }else if(f[i] == -1 and p != -1){
+                q = i;
+                a.push_back({p,q});
+                p = -1;
+                q = -1;
+            }
+        }
+        
+        p = -1; q = -1;
+        
+        for(int i = 0; i < n; i++){
+            if(f[i] == -1){
+                p = i;
+            }else if(f[i] == 1 and p != -1){
+                q = i;
+                a.push_back({p,q});
+                p = -1;
+                q = -1;
+            }
+        }
+        
+        for(auto &i : a)
+            ans = max(ans, abs(i.second - i.first));
+        
+        if(ans == 0) return 0;
+        return ans - 1;
+    }
+};
