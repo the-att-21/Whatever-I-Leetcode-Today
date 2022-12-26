@@ -1,0 +1,55 @@
+1. https://leetcode.com/problems/longest-subsequence-with-limited-sum/
+Solution : 
+class Solution {
+public:
+    vector<int> answerQueries(vector<int>& nums, vector<int>& q)
+    {
+        vector<int> ans;
+        int m = q.size();
+
+        sort(nums.begin(), nums.end());
+        for(int i = 0; i < m; i++) ans.push_back(solve(nums, q[i]));
+
+        return ans;
+    }
+
+    int solve(vector<int>& a, int maxSum)
+    {
+        int n = a.size();
+        int len, i = 0; 
+        
+        while(maxSum >= 0 and i < n)
+        {
+            maxSum -= a[i];
+            len++; i++;
+        }
+
+        return len;
+    }
+};
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. https://leetcode.com/problems/removing-stars-from-a-string/
+Solution : 
+class Solution {
+public:
+    string removeStars(string s) {
+        stack<char> st;
+
+        for(auto &i : s){
+            if(i != '*'){
+                st.push(i);
+            }else st.pop();
+        }
+
+        string ans = "";
+        while(!st.empty()){
+            ans += st.top();
+            st.pop();
+        }
+
+        // return ans;
+        return string(ans.rbegin(), ans.rend());
+    }
+};
