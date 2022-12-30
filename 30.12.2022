@@ -1,0 +1,24 @@
+1. https://leetcode.com/problems/all-paths-from-source-to-target/description/
+Solution : 
+class Solution {
+public:
+    vector<vector<int>> ans;
+    void dfs(int node, vector<int>& path, vector<vector<int>>& graph){
+        int n = graph.size();
+        path.push_back(node);
+        if(node == n - 1){
+            ans.push_back(path);
+            return;
+        }
+
+        for(auto &i : graph[node]){
+            dfs(i, path, graph);
+            path.pop_back();
+        }
+    }
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        vector<int> path;
+        dfs(0, path, graph);
+        return ans;
+    }
+};
