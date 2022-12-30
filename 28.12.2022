@@ -1,0 +1,75 @@
+1. https://leetcode.com/problems/remove-stones-to-minimize-the-total/description/
+Solution : 
+class Solution {
+public:
+    int minStoneSum(vector<int>& piles, int k) {
+        priority_queue<int> pq;
+        int ans = 0;
+        for(int i = 0; i < piles.size(); i++){
+            pq.push(piles[i]);
+        }
+
+        for(int i = 0; i < k; ++i){
+            int temp = (pq.top() / 2) + (pq.top() % 2);
+            pq.pop();
+            pq.push(temp);
+        }
+
+        while(!pq.empty()){
+            ans += pq.top();
+            pq.pop();
+        }
+
+        return ans;
+    }
+};
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2. https://leetcode.com/problems/longest-common-prefix/description/
+Solution : 
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        int n = strs.size();
+        string ans = "";
+        if(n==0) return ans;
+        sort(strs.begin(), strs.end());
+        string first = strs[0];
+        string last = strs[n - 1];
+        
+        for(int i = 0; i < first.size(); ++i){
+            if(first[i] == last[i]){
+                ans += first[i];
+            }else{
+                break;
+            }           
+        }
+
+        return ans;
+    }
+};
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+3. https://leetcode.com/problems/power-of-two/description/
+Solution : 
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        if(n <= 0) return 0;
+        return __builtin_popcount(n) == 1? 1 : 0;
+    }
+};
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4.https://leetcode.com/problems/number-of-1-bits/description/
+Solution : 
+class Solution {
+public:
+    int hammingWeight(uint32_t n) {
+        return __builtin_popcount(n);
+    }
+};
+
