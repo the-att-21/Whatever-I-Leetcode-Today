@@ -1,0 +1,53 @@
+1. https://leetcode.com/problems/unique-paths-iii/description/
+Solution : 
+int delRow[]={-1,0,+1,0};
+int delCol[]={0,+1,0,-1};
+class Solution {
+public:
+    void dfs(int row,int col,int cnt_squares,pair<int,int> end,int walkover_squares,vector<vector<int>>& isVisited,vector<vector<int>>& grid,int& noOfWays){
+        int m=grid.size();
+        int n=grid[0].size();
+        cnt_squares++;
+        isVisited[row][col]=1;
+        if(row==end.first&&col==end.second){
+            if(cnt_squares==walkover_squares){
+                noOfWays++;
+            }
+            isVisited[row][col]=0;
+            return;
+        }
+        for(int i=0;i<4;i++){
+            int nrow=row+delRow[i];
+            int ncol=col+delCol[i];
+            if(nrow>=0&&nrow<m&&ncol>=0&&ncol<n&&!isVisited[nrow][ncol]&&grid[nrow][ncol]!=-1){
+                dfs(nrow,ncol,cnt_squares,end,walkover_squares,isVisited,grid,noOfWays);
+            }
+        }
+        isVisited[row][col]=0;
+    }
+    int uniquePathsIII(vector<vector<int>>& grid) {
+        int m=grid.size();
+        int n=grid[0].size();
+        int total_squares=m*n;
+        int blocked_squares=0;
+        pair<int,int> start,end;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==-1){
+                    blocked_squares++;
+                }
+                if(grid[i][j]==1){
+                    start={i,j};
+                }
+                if(grid[i][j]==2){
+                    end={i,j};
+                }
+            }
+        }
+        vector<vector<int>> isVisited(m,vector<int>(n,0));
+        int walkover_squares=total_squares-blocked_squares;
+        int noOfWays=0;
+        dfs(start.first,start.second,0,end,walkover_squares,isVisited,grid,noOfWays);
+        return noOfWays;
+    }
+};
